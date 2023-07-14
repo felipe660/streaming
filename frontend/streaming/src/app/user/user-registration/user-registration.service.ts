@@ -18,4 +18,8 @@ export class UserRegistrationService {
     }
   }
 
+  login(dto: any): any {
+    return this.http.post(`${this.BASE_URI}/login`, dto);
+  }
+
 }

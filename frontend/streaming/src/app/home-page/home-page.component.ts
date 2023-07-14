@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { VideoRegistrationService } from '../video/video-registration/video-registration.service';
 
 @Component({
@@ -7,6 +7,8 @@ import { VideoRegistrationService } from '../video/video-registration/video-regi
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit {
+  @Output() filtro: string = '';
+
   errorMessage: any;
   videoList: any;
 
