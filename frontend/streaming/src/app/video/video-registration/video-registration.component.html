@@ -1,0 +1,106 @@
+<section class="vh-100 bg-image">
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5">
+              <h2 class="text-uppercase text-center mb-5">Upload de Video</h2>
+
+              <form
+                *ngIf="!isSuccessful"
+                name="form"
+                (ngSubmit)="f.form.valid && onSubmit()"
+                #f="ngForm"
+                novalidate
+                >
+
+                <div class="form-outline mb-4">
+                    <div class="form-group">
+                        <label class="form-label" for="formName">Nome do Video</label>
+                        <input type="text" 
+                        id="formName" 
+                        class="form-control form-control-lg"
+                        name="name"
+                        [(ngModel)]="form.name"
+                        required
+                        minlength="1"
+                        maxlength="70"
+                        #name="ngModel" 
+                        />
+                    </div>
+                </div>
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="formsubTitle">Subtítulo</label>
+                  <input type="text" 
+                        id="formSubTitle" 
+                        class="form-control form-control-lg"
+                        name="subTitle"
+                        [(ngModel)]="form.sub_title"
+                        required
+                        minlength="1"
+                        maxlength="70"
+                        #name="ngModel" 
+                        />
+                </div>
+
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="formUrl">Url</label>
+                  <input type="url" 
+                        id="formUrl" 
+                        class="form-control form-control-lg"
+                        name="url"
+                        [(ngModel)]="form.url"
+                        required
+                        minlength="1"
+                        maxlength="70"
+                        #name="ngModel" 
+                        />
+                </div>
+
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="formCreator">Criador</label>
+                  <input type="text" 
+                        id="formCreator" 
+                        class="form-control form-control-lg"
+                        name="creator"
+                        [(ngModel)]="form.creator"
+                        required
+                        minlength="1"
+                        maxlength="70"
+                        #name="ngModel" 
+                        />
+                </div>
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="formBody">Descrição</label>
+                    <input type="text" 
+                          id="formBody" 
+                          class="form-control form-control-lg"
+                          name="body"
+                          [(ngModel)]="form.body"
+                          required
+                          minlength="1"
+                          maxlength="70"
+                          #name="ngModel" 
+                          />
+                  </div>
+
+                <!-- <div class="form-outline d-flex mb-5">
+                  <label class="form-label me-2" for="form3Example4cg">Publicar?</label>
+                  <input class="form-check-input" [(ngModel)]="form.publish_at" type="checkbox" id="form2Example3cg" />
+                </div> -->
+
+                <div class="d-flex justify-content-center">
+                    <div class="form-group">
+                        <button class="btn btn-success btn-primary btn-block btn-lg gradient-custom-4 text-body">Enviar</button>
+                    </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

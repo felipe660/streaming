@@ -25,16 +25,16 @@ export class UserRegistrationComponent implements OnInit {
   }
 
   onSubmitUser(): void {
-    console.log(this.form);
     const dto = this.form;
     console.log(dto);
     this.userRegistrationService.saveOrUpdate(dto).subscribe(
-      (data: any) => {
-        console.log(data);
+      (res: any) => {
+        console.log(res);
+        console.log("Usuário inserido com sucesso!");
         this.isSuccessful = true;
         this.isSignUpFailed = false;
       },
-      (err: { error: { message: any; }; }) => {
+      (err: any) => {
         this.errorMessage = err.error.message;
         this.isSignUpFailed = true;
       }
