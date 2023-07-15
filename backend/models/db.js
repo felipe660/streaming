@@ -24,6 +24,7 @@ async function connect() {
   connect();
   
   async function selectUsers(){
+    console.log("entrou0");
     const client = await connect();
     const res = await client.query("SELECT * FROM users");
     return res.rows;
@@ -32,6 +33,12 @@ async function connect() {
   async function selectUserById(id){
     const client = await connect();
     const res = await client.query("SELECT * FROM users WHERE Id=$1", [id]);
+    return res.rows;
+  }
+
+  async function selectUserByInfo(user){
+    const client = await connect();
+    const res = await client.query("SELECT * FROM users WHERE email=$1 and password=$2", [user.email, user.password]);
     return res.rows;
   }
 
@@ -126,6 +133,7 @@ async function connect() {
   module.exports = {
     selectUsers,
     selectUserById,
+    selectUserByInfo,
     updateUser,
     insertUser,
     deleteUser,

@@ -6,8 +6,12 @@ const db = require("./models/db")
 
 const express = require('express');
 
+const cors = require('cors')
+
 const app = express();
 
+app.use(cors())
+ 
 app.use(express.json());
 
 
@@ -27,9 +31,14 @@ app.get("/users/:id", async (req,res)=>{
     res.json(users);
 })
 
+app.post("/users/login", async (req,res)=>{ 
+    const user = await db.selectUserByInfo(req.body);
+    return res.json(user);
+})
+
 app.post("/users", async (req,res) => { 
     await db.insertUser(req.body);
-    res.sendStatus(201);
+    return res.status(201).json({ message: "Success", code: 201 })
 })
 
 app.patch("/users/:id", async (req,res) => { 
@@ -49,7 +58,7 @@ app.get("/video", async (req,res)=>{
 
 app.post("/video", async (req,res) => { 
     await db.insertVideo(req.body);
-    res.sendStatus(201);
+    return res.status(201).json({ message: "Success", code: 201 })
 })
 
 app.get("/video/:id", async (req,res)=>{ 
