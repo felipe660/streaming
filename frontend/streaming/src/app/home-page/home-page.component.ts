@@ -7,10 +7,10 @@ import { VideoRegistrationService } from '../video/video-registration/video-regi
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit {
-  @Output() filtro: string = '';
 
   errorMessage: any;
   videoList: any;
+  filtro: any;
 
   constructor(public videoRegistrationService : VideoRegistrationService) { }
 
@@ -28,5 +28,9 @@ export class HomePageComponent implements OnInit {
         this.errorMessage = err.error.message;
       }
     );
+  }
+
+  addItem(newItem: string) {
+    this.filtro = newItem;
   }
 }

@@ -68,9 +68,9 @@
                                 search<i class="fas fa-chevron-right ps-2"></i></a>
                             </li>
                         </ul>
-                        <input type="search" class="form-control" style="border-radius: 45px;" placeholder="  Search" aria-label="Search" />
+                        <input (change)="addNewItem(newItem.value)" type="search" class="form-control" style="border-radius: 45px;" placeholder="  Search" aria-label="Search" #newItem>
                         </div>
-                        <a href="#!" class="text-white"><i class="fas fa-search ps-3"></i></a>
+                        <a (click)="addNewItem(newItem.value)"><i class="fas fa-search ps-3"></i></a>
                     </form>
 
                     <ul class="navbar-nav ms-3">
