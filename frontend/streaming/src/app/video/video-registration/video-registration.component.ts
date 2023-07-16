@@ -9,6 +9,9 @@ import { VideoRegistrationService } from './video-registration.service';
 })
 export class VideoRegistrationComponent implements OnInit {
 
+  url: any;
+  format: any;
+
   form: any = {
     publisher: "Felipe Milani"
   };
@@ -42,6 +45,19 @@ export class VideoRegistrationComponent implements OnInit {
     );
   }
 
+  onSelectFile(event: any) {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      if(file.type.indexOf('image')> -1){
+        this.format = 'image';
+      } else if(file.type.indexOf('video')> -1){
+        this.format = 'video';
+      }
+      reader.onload = (event) => {
+        this.url = (<FileReader>event.target).result;
+      }
+    }
+  }
 }
-
-

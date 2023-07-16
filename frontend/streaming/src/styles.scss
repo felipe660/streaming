@@ -1,1 +1,12 @@
 @import "~bootstrap/dist/css/bootstrap.css";
+
+:root {
+    --prmary-color: linear-gradient(to right, rgba(100, 65, 165), rgba(103, 75, 155));
+    // --prmary-color: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+    --text-color-white: #fff;
+    --text-color: #fff;
+}
+
+input {
+    height: 36px;
+}

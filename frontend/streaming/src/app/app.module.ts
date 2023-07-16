@@ -12,6 +12,7 @@ import { SafePipe } from './pipes/safe.pipe';
 import { LoginComponent } from './Login/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ArrayFilterPipe } from './pipes/array-filter.pipe';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ArrayFilterPipe } from './pipes/array-filter.pipe';
     LoginComponent,
     NavbarComponent,
     ArrayFilterPipe,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,

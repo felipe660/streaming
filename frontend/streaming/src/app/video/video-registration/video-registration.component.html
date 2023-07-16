@@ -44,7 +44,7 @@
                         />
                 </div>
 
-                <div class="form-outline mb-4">
+                <!-- <div class="form-outline mb-4">
                   <label class="form-label" for="formUrl">Url</label>
                   <input type="url" 
                         id="formUrl" 
@@ -56,7 +56,7 @@
                         maxlength="70"
                         #name="ngModel" 
                         />
-                </div>
+                </div> -->
 
                 <div class="form-outline mb-4">
                   <label class="form-label" for="formCreator">Criador</label>
@@ -84,6 +84,12 @@
                           maxlength="70"
                           #name="ngModel" 
                           />
+                  </div>
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="formUrl">Url</label>
+                    <!-- <img [src]="url" *ngIf="format==='image' && url" height="200"> <br/> -->
+                    <video [src]="url" *ngIf="format==='video' && url" height="200" controls></video> <br/>
+                    <input type='file' (change)="onSelectFile($event)" />
                   </div>
 
                 <!-- <div class="form-outline d-flex mb-5">

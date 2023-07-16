@@ -10,7 +10,8 @@ pb-video-container {
 }
 
 .pb-video:hover {
-    background: #2c3e50;
+    background: var(--prmary-color);
+    cursor: pointer;
 }
 
 // .pb-video-frame {

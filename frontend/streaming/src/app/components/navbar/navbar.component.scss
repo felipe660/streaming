@@ -1,20 +1,30 @@
 .navbar-expand-lg {
-    background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+    background: var(--prmary-color);
 
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+    background: var(--prmary-color);
 
-    color: #fff;
+    color: var(--text-color-white);
+
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+
+    padding: 4.5px;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
 .nav-item .nav-link {
-    color: grey;
+    color: var(--text-color);
 }
 
 .navbar-expand-lg .nav-item .nav-link:hover {
   transition: all 0.3s ease;
   border-radius: 0.25rem;
-  color: #fff;
+  color: var(--text-color-white);
 }
 
 .fa-li {
