@@ -104,7 +104,8 @@ async function connect() {
 
   async function selectUserVideoById(id){
     const client = await connect();
-    const res = await client.query("SELECT * FROM userhasvideos WHERE Id=$1", [id]);
+    const res = await client.query("SELECT * FROM userhasvideos WHERE iduser=$1", [id]);
+    console.log(res.rows);
     return res.rows;
   }
 
