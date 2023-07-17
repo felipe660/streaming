@@ -5,23 +5,40 @@ pb-video-container {
 }
 
 .pb-video {
-    border: 1px solid #e6e6e6;
     padding: 5px;
 }
 
-.pb-video:hover {
-    background: var(--prmary-color);
+.col-lg-12 {
+    padding-left: 35% !important;
+    padding-right: 35% !important;
+}
+
+.frame :hover {
+    transition: 0.50s ease;
+    transform: translate(-8px, -8px);
     cursor: pointer;
 }
 
-// .pb-video-frame {
-//     transition: width 2s, height 2s;
-// }
+.card-frame{
+    background: var(--prmary-color);
+}
 
-// .pb-video-frame:hover {
-//     height: 300px;
-// }
+.pb-video label:hover {
+    cursor: pointer;
+}
 
 .pb-row {
     margin-bottom: 10px;
+}
+
+.icon-color {
+    color: red;
+}
+
+.icon:hover{
+    cursor: pointer;
+}
+
+.icon {
+    padding: 5px;
 }

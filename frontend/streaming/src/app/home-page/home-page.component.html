@@ -3,12 +3,19 @@
 <div class="container-fluid pb-video-container">
     <div class="row">
         <div class="col-md-10 offset-1 mt-5">
-            <div class="row pb-row">
-                <div class="col-lg-3 col-md-4 col-5 p-3" *ngFor="let video of videoList | arrayFilter: filtro">
+            <div class="row pb-row text-center">
+                <h3 *ngIf="!this.filtro" class="pb-0 pt-3">Ultima publicação</h3>
+                <div class="col-lg-3 col-md-4 col-5 p-3" *ngFor="let video of videoList | arrayFilter: filtro ; let i = index"  [ngClass]="{'col-12': i === 0, 'col-lg-12': i === 0, 'pt-0': i ===0}">
                     <div class="pb-video">
-                        <iframe class="pb-video-frame" width="100%" height="230" [src]="video.url | safe" title="YouTube video player" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                        <label class="form-control label-warning text-center">{{video.name}}</label>
+                        <div class="card-frame">
+                            <div class="frame" style="height: 230px;">
+                                <iframe class="pb-video-frame mb-0 pb-0" width="100%" height="100%" [src]="video.url | safe" title="YouTube video player" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                        <label class="label-warning text-center">{{video.name}}</label>
+                        <fa-icon *ngIf="!isFavorite(video.id)" (click)="this.saveVideo(this.userId, video.id)" class="icon" [icon]="faHeart"></fa-icon>
+                        <fa-icon *ngIf="isFavorite(video.id)" (click)="this.removeVideo(this.userId, video.id)" class="icon-color" [icon]="faHeartSolid" class="icon-color icon"></fa-icon>
                     </div>
                 </div>
             </div>

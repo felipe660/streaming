@@ -24,11 +24,11 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    localStorage.setItem('id', '');
   }
 
   onSubmitLogin(): void {
     const dto = this.form;
-    console.log(dto);
     this.userRegistrationService.login(dto).subscribe(
       (res: any) => {
         const id = res[0].id;

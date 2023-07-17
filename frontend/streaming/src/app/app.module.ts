@@ -13,6 +13,7 @@ import { LoginComponent } from './Login/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ArrayFilterPipe } from './pipes/array-filter.pipe';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
