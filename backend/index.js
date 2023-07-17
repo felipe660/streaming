@@ -96,8 +96,8 @@ app.patch("/user-video/:id", async (req,res) => {
     res.sendStatus(200);
 })
 
-app.delete("/user-video/:id", async (req,res) => { 
-    await db.deleteUserVideo(req.params.id);
+app.delete("/user-video/:iduser/:idvideo", async (req,res) => { 
+    await db.deleteUserVideo(req.params.iduser, req.params.idvideo);
     res.sendStatus(204);
 })
 

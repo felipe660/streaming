@@ -121,11 +121,11 @@ async function connect() {
     );
   }
 
-  async function deleteUserVideo(id) {
+  async function deleteUserVideo(id, idVideo) {
     const client = await connect();
     await client.query(
-      "DELETE FROM userhasvideos WHERE id=$1",
-      [id]
+      "DELETE FROM userhasvideos WHERE iduser=$1 AND idvideo=$2",
+      [id, idVideo]
     );
   }
   
