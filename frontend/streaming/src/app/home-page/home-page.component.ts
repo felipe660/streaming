@@ -41,7 +41,7 @@ export class HomePageComponent implements OnInit {
   }
 
   getFavorites(): void {
-    this.userVideosService.get().subscribe(
+    this.userVideosService.getByUserId(this.userId).subscribe(
       (res: any) => {
         this.favorites = res;
         console.log(this.favorites);

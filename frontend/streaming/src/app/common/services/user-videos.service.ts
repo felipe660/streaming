@@ -22,7 +22,7 @@ export class UserVideosService {
     return this.http.delete(`${this.BASE_URI}/${dto.iduser}/${dto.idvideo}`);
   }
 
-  get(): any {
-    return this.http.get(`${this.BASE_URI}`);
+  getByUserId(id: any): any {
+    return this.http.get(`${this.BASE_URI}/${id}`);
   }
 }
