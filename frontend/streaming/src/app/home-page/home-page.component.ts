@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { VideoRegistrationService } from '../video/video-registration/video-registration.service';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
+import { CommentsService } from '../common/services/comments.service';
 
 @Component({
   selector: 'app-home-page',
@@ -19,10 +20,16 @@ export class HomePageComponent implements OnInit {
   faHeartSolid = faHeartSolid;
   userId: any ;
   favorites: any;
+  showCommentInput: any = {};
+  comments: any = {
+    comment: '',
+    idvideo:'',
+  };
 
   constructor(
     public videoRegistrationService : VideoRegistrationService,
     private router: Router,
+    public commentsService: CommentsService,
     private userVideosService: UserVideosService
     ) { }
 
@@ -106,5 +113,36 @@ export class HomePageComponent implements OnInit {
 
   addItem(newItem: string) {
     this.filtro = newItem;
+  }
+
+  showComment(index: any, video: any): void {
+    console.log(index, video)
+    this.commentsService.getByVideoId(video.id).subscribe(
+      (res: any) => {
+        video.comments = res;
+        console.log(video.comments); 
+      },
+      (err: any) => {
+        this.errorMessage = err.error.message;
+      }
+    );
+    if(this.showCommentInput[index] = false || !this.showCommentInput[index]){
+      this.showCommentInput[index] = true;
+    } else {
+      this.showCommentInput[index] = false;
+    }
+    console.log(this.showCommentInput[index]);
+  }
+
+  sendComment(id:any): void {
+    this.comments.idvideo = id;
+    this.commentsService.saveOrUpdate(this.comments).subscribe(
+      (res: any) => {
+        console.log(res);
+      },
+      (err: any) => {
+        this.errorMessage = err.error.message;
+      }
+    );
   }
 }

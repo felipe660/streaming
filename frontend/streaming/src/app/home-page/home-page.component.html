@@ -16,6 +16,13 @@
                         <label class="label-warning text-center">{{video.name}}</label>
                         <fa-icon *ngIf="!isFavorite(video.id)" (click)="this.saveVideo(this.userId, video.id)" class="icon" [icon]="faHeart"></fa-icon>
                         <fa-icon *ngIf="isFavorite(video.id)" (click)="this.removeVideo(this.userId, video.id)" class="icon-color" [icon]="faHeartSolid" class="icon-color icon"></fa-icon>
+                        <i class="fa-regular fa-comment" (click)="showComment(i, video)"></i>
+                        <div class="comment-card" *ngIf="this.showCommentInput[i]">
+                            <div *ngFor="let comment of video.comments">
+                                <p>{{comment.comment}}</p>
+                            </div>
+                            <input [(ngModel)]="this.comments.comment" (keyup.enter)="sendComment(video.id);" type="text"/>
+                        </div>
                     </div>
                 </div>
             </div>

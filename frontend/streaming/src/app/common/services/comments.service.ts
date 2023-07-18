@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class VideoRegistrationService {
+export class CommentsService {
 
-  readonly BASE_URI = `http://localhost:3000/video`;
+  readonly BASE_URI = `http://localhost:3000/comments`;
 
   constructor(private http: HttpClient) { }
 
@@ -18,15 +18,7 @@ export class VideoRegistrationService {
     }
   }
 
-  get(): any {
-    return this.http.get(`${this.BASE_URI}`);
-  }
-
-  // delete(id: string): any {
-  //   return this.http.delete(`${this.BASE_URI}/${id}`);
-  // }
-
-  getById(id: string): any {
+  getByVideoId(id: any): any {
     return this.http.get(`${this.BASE_URI}/${id}`);
   }
 }
