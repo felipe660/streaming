@@ -101,6 +101,16 @@ app.delete("/user-video/:iduser/:idvideo", async (req,res) => {
     res.sendStatus(204);
 })
 
+app.get("/comments/:id", async (req,res)=>{ 
+    const users = await db.selectCommentsByVideoId(req.params.id);
+    res.json(users);
+})
+
+app.post("/comments", async (req,res) => { 
+    await db.insertComment(req.body);
+    res.sendStatus(201);
+})
+
 app.listen(port);
 
 console.log("Backend rodando");

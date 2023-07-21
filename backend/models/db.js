@@ -24,7 +24,6 @@ async function connect() {
   connect();
   
   async function selectUsers(){
-    console.log("entrou0");
     const client = await connect();
     const res = await client.query("SELECT * FROM users");
     return res.rows;
@@ -105,7 +104,6 @@ async function connect() {
   async function selectUserVideoById(id){
     const client = await connect();
     const res = await client.query("SELECT * FROM userhasvideos WHERE iduser=$1", [id]);
-    console.log(res.rows);
     return res.rows;
   }
 
@@ -129,7 +127,19 @@ async function connect() {
       [id, idVideo]
     );
   }
-  
+
+  async function selectCommentsByVideoId(id){
+    const client = await connect();
+    const res = await client.query("SELECT * FROM comments WHERE idvideo=$1", [id]);
+    return res.rows;
+  }
+
+  async function insertComment(dto){
+    console.log(dto)
+    const client = await connect();
+    await client.query("INSERT INTO comments (idvideo, comment) VALUES ($1,$2)", [dto.idvideo, dto.comment]);
+  }
+
 
   module.exports = {
     selectUsers,
@@ -147,5 +157,7 @@ async function connect() {
     selectUserVideo,
     selectUserVideoById,
     updateUserVideo,
-    deleteUserVideo
+    deleteUserVideo,
+    selectCommentsByVideoId,
+    insertComment
   }
