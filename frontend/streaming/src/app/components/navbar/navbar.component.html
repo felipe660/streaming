@@ -4,7 +4,7 @@
         <div class="row" style="width: 100%;">
             <div class="col-3 d-flex align-items-center">
                 <!-- Navbar brand -->
-                <a class="navbar-brand" href="/home"><span style="color: #fff; font-size: 20px;">Peek Tv</span></a>
+                <a class="navbar-brand" href="/blog"><span style="color: #fff; font-size: 20px;">Peek.</span></a>
 
             </div>
             <div class="col-6 d-flex align-items-center">
@@ -61,21 +61,16 @@
                     </div>
             </div>
             <div class="offset-2 col-1">
-                <ul class="navbar-nav ms-3">
-                    <!-- <li class="nav-item me-3">
-                        <a class="nav-link d-flex align-items-center" href="#!">IMDbPro</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center me-3" href="#!">
-                        <i class="fas fa-bookmark pe-2"></i> Watchlist
-                        </a>
-                    </li> -->
+                <!-- <ul class="navbar-nav ms-3">
                     <li class="nav-item" style="width: 100px;">
-                        <a class="nav-link d-flex align-items-center" href="#!">Sign out
+                        <a *ngIf="this.verifyLogin()" class="nav-link d-flex align-items-center" (click)="logOut()" href="/blog">Sign out
                             <i class="fa-solid fa-right-from-bracket ms-2"></i>
                          </a>
+                         <a *ngIf="!this.verifyLogin()" class="nav-link d-flex align-items-center" href="/login">Sign in
+                            <i class="fa fa-sign-in ms-2" aria-hidden="true"></i>
+                         </a>
                     </li>
-                </ul>
+                </ul> -->
             </div>
         </div>
       <!-- Collapsible wrapper -->

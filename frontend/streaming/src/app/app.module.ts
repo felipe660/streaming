@@ -15,6 +15,7 @@ import { ArrayFilterPipe } from './pipes/array-filter.pipe';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FavoritesComponent } from './favorites/favorites.component';
+import { BlogComponent } from './blog/blog.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { FavoritesComponent } from './favorites/favorites.component';
     ArrayFilterPipe,
     SidebarComponent,
     FavoritesComponent,
+    BlogComponent,
   ],
   imports: [
     BrowserModule,

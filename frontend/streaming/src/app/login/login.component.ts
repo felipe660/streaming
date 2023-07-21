@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
   }
 
   goNext():void{
-    this.router.navigate(['/home']);
+    this.router.navigate(['/blog']);
   }
 
 }
