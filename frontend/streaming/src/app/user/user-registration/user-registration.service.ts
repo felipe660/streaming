@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
 })
 export class UserRegistrationService {
 
-  readonly BASE_URI = `http://localhost:3000/users`;
+  readonly BASE_URI = `https://av2backend.onrender.com/users`;
+  // readonly BASE_URI = `http://localhost:3000/users`;
 
   constructor(private http: HttpClient) { }
 

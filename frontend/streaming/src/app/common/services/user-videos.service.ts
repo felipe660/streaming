@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
 })
 export class UserVideosService {
 
-  readonly BASE_URI = `http://localhost:3000/user-video`;
+  readonly BASE_URI = `https://av2backend.onrender.com/user-video`;
+  // readonly BASE_URI = `http://localhost:3000/user-video`;
 
   constructor(private http: HttpClient) { }
 

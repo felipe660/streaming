@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
 })
 export class CommentsService {
 
-  readonly BASE_URI = `http://localhost:3000/comments`;
+  readonly BASE_URI = `https://av2backend.onrender.com/comments`;
+  // readonly BASE_URI = `http://localhost:3000/comments`;
 
   constructor(private http: HttpClient) { }
 
