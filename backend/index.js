@@ -51,64 +51,19 @@ app.delete("/users/:id", async (req,res) => {
     res.sendStatus(204);
 })
 
-app.get("/video", async (req,res)=>{ 
-    const videos = await db.selectVideo();
-    res.json(videos);
+app.get("/campaign/:id", async (req, res) => { 
+    const campaigns = await db.selectCampaign(req.params.id); 
+    res.json(campaigns);
 })
 
-app.post("/video", async (req,res) => { 
-    await db.insertVideo(req.body);
-    return res.status(201).json({ message: "Success", code: 201 })
+app.get("/team/:id", async (req, res) => { 
+    const campaigns = await db.selectTeam(req.params.id); 
+    res.json(campaigns);
 })
 
-app.get("/video/:id", async (req,res)=>{ 
-    const video = await db.selectVideoById(req.params.id);
-    res.json(video);
-})
-
-app.patch("/video/:id", async (req,res) => { 
-    await db.updateVideo(req.params.id, req.body);
-    res.sendStatus(200);
-})
-
-app.delete("/video/:id", async (req,res) => { 
-    await db.deleteVideo(req.params.id);
-    res.sendStatus(204);
-})
-
-app.get("/user-video", async (req,res)=>{ 
-    const videos = await db.selectUserVideo();
-    res.json(videos);
-})
-
-app.get("/user-video/:id", async (req,res)=>{ 
-    const video = await db.selectUserVideoById(req.params.id);
-    res.json(video);
-})
-
-app.post("/user-video", async (req,res) => { 
-    await db.insertUserVideo(req.body);
-    res.sendStatus(201);
-})
-
-app.patch("/user-video/:id", async (req,res) => { 
-    await db.updateUserVideo(req.params.id, req.body);
-    res.sendStatus(200);
-})
-
-app.delete("/user-video/:iduser/:idvideo", async (req,res) => { 
-    await db.deleteUserVideo(req.params.iduser, req.params.idvideo);
-    res.sendStatus(204);
-})
-
-app.get("/comments/:id", async (req,res)=>{ 
-    const users = await db.selectCommentsByVideoId(req.params.id);
-    res.json(users);
-})
-
-app.post("/comments", async (req,res) => { 
-    await db.insertComment(req.body);
-    res.sendStatus(201);
+app.get("/player/:id", async (req, res) => { 
+    const campaigns = await db.selectPlayers(req.params.id); 
+    res.json(campaigns);
 })
 
 app.listen(port);
