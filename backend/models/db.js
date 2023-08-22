@@ -80,6 +80,45 @@ async function connect() {
     return res.rows;
   }
 
+  async function selectTeams(){
+    const client = await connect();
+    const res = await client.query("SELECT * FROM teams");
+    return res.rows;
+  }
+
+  async function selectChampionships(){
+    const client = await connect();
+    const res = await client.query("SELECT * FROM championship");
+    return res.rows;
+  }
+
+  async function selectMatches(){
+    const client = await connect();
+    const res = await client.query("SELECT * FROM match");
+    return res.rows;
+  }
+
+  async function selectTournamentInfos(id){
+    const client = await connect();
+    const res = await client.query("SELECT * FROM championshiphasmatches WHERE id_championship=$1", [id]);
+    return res.rows;
+  }
+
+  async function selectResults(){
+    const client = await connect();
+    const res = await client.query("SELECT * FROM championshiphasteams ORDER BY wins DESC");
+    return res.rows;
+  }
+
+  async function results(id, user){
+    console.log(id, user)
+    const client = await connect();
+    await client.query(
+      "UPDATE championshiphasteams SET wins=$1, loses=$2 WHERE id_team=$3",
+      [user.wins, user.loses, user.id]
+    );
+  }
+
   module.exports = {
     selectUsers,
     selectUserById,
@@ -89,5 +128,11 @@ async function connect() {
     deleteUser,
     selectCampaign,
     selectTeam,
-    selectPlayers
+    selectTeams,
+    selectPlayers,
+    selectMatches,
+    selectChampionships,
+    selectTournamentInfos,
+    selectResults,
+    results
   }

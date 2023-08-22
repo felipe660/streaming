@@ -4,14 +4,13 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class PlayersService {
+export class ChampionshipService {
 
-  readonly BASE_URI = `http://localhost:3000/player`;
+  readonly BASE_URI = `http://localhost:3000/championship`;
 
   constructor(private http: HttpClient) { }
 
-  getPlayers(id: any): any {
-    return this.http.get(`${this.BASE_URI}/${id}`);
+  getAll(): any {
+    return this.http.get(`${this.BASE_URI}`);
   }
-
 }

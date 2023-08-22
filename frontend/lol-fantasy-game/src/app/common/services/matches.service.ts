@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class TeamService {
+export class MatchesService {
 
-  readonly BASE_URI = `http://localhost:3000/team`;
+  readonly BASE_URI = `http://localhost:3000/matches`;
 
   constructor(private http: HttpClient) { }
 
@@ -22,7 +22,7 @@ export class TeamService {
     return this.http.get(`${this.BASE_URI}`);
   }
 
-  getById(id: any): any {
+  getTournamentInfos(id: number): any {
     return this.http.get(`${this.BASE_URI}/${id}`);
   }
 }

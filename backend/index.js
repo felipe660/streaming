@@ -61,10 +61,47 @@ app.get("/team/:id", async (req, res) => {
     res.json(campaigns);
 })
 
+app.get("/team", async (req,res)=>{ 
+    const users = await db.selectTeams();
+    res.json(users);
+})
+
+app.get("/championship", async (req,res)=>{ 
+    const users = await db.selectChampionships();
+    res.json(users);
+})
+
+app.get("/matches", async (req,res)=>{ 
+    const users = await db.selectMatches();
+    res.json(users);
+})
+
+app.get("/matches/:id", async (req,res)=>{ 
+    const users = await db.selectTournamentInfos(req.params.id);
+    res.json(users);
+})
+
 app.get("/player/:id", async (req, res) => { 
     const campaigns = await db.selectPlayers(req.params.id); 
     res.json(campaigns);
 })
+
+// app.patch("/championship/championshiphasteams/:id", async (req,res) => {
+//     console.log(req.params.id, req.body) 
+//     await db.updateResults(req.params.id, req.body);
+//     res.sendStatus(200);
+// })
+
+app.get("/results", async (req,res)=>{ 
+    const users = await db.selectResults();
+    res.json(users);
+})
+
+app.post("/results/:id", async (req,res) =>{
+    await db.results(req.params.id, req.body);
+    res.sendStatus(200);
+})
+
 
 app.listen(port);
 
