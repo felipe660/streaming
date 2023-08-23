@@ -13,7 +13,7 @@
                             <h3>Matches</h3>
                         </div>
                         <div class="mt-1 row" *ngFor="let match of matches; let i=index">
-                            <div *ngIf="this.match.id_championship === championship.id" class="col-12 d-flex justify-content-center align-items-center">
+                            <div *ngIf="match.id_championship === championship.id" class="col-12 d-flex justify-content-center align-items-center">
                                 {{this.teamsEnum[match.id_red_team].name}} X {{this.teamsEnum[match.id_blue_team].name}}
                                 <button *ngIf="(this.campaign.id_team === match.id_red_team || this.campaign.id_team === match.id_blue_team) && i === 0" class="btn btn-success ms-3" (click)="play(match, championship, details)">Jogar</button>
                                 <button *ngIf="this.campaign.id_team !== match.id_red_team && this.campaign.id_team !== match.id_blue_team && i === 0" class="btn btn-danger ms-3" (click)="play(match, championship, simulate)">Simular</button>
@@ -73,20 +73,20 @@
             </div>
             <div class="row">
                 <div class="col-4">
-                    <div class="row" *ngFor="let player of this.modalMatchInfos.blue_team_players">
+                    <div class="row" *ngFor="let player of this.modalMatchInfos.red_team_players">
                         <h5>{{player.name}} / {{player.role}}</h5>
                         <p>Power: {{player.power}}</p> 
                     </div>
                 </div>
                 <div class="offset-4 col-4">
-                    <div class="row" *ngFor="let player of this.modalMatchInfos.red_team_players">
+                    <div class="row" *ngFor="let player of this.modalMatchInfos.blue_team_players">
                         <h5>{{player.name}} / {{player.role}}</h5>
                         <p>Power: {{player.power}}</p> 
                     </div>
                 </div>
             </div>
             <div class="row">
-                <button class="btn btn-success">CONFIRMAR</button>
+                <button class="btn btn-success" (click)="this.reloadWindow()">CONFIRMAR</button>
             </div>
         </div>
     </div>
@@ -102,4 +102,5 @@
     <div class="modal-body">
       Jogo Simulado
     </div>
+    <button class="btn btn-success" (click)="this.reloadWindow()">CONFIRMAR</button>
 </ng-template>

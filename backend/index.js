@@ -81,6 +81,20 @@ app.get("/matches/:id", async (req,res)=>{
     res.json(users);
 })
 
+app.delete("/matches/:id", async (req,res) => { 
+    await db.deleteMatch(req.params.id);
+    res.sendStatus(204);
+})
+
+app.post("/matches/finishmatches", async (req,res) => { 
+    await db.finishMatch(req.body);
+    return res.status(201).json({ message: "Success", code: 201 })
+})
+app.delete("/matches/championshiphasmatches/:id", async (req,res) => { 
+    await db.deleteMatchFromChampionship(req.params.id);
+    res.sendStatus(204);
+})
+
 app.get("/player/:id", async (req, res) => { 
     const campaigns = await db.selectPlayers(req.params.id); 
     res.json(campaigns);
@@ -100,6 +114,7 @@ app.get("/results/:id", async (req,res) =>{
     const users = await db.selectTeamInfoById(req.params.id);
     res.json(users);
 })
+
 
 
 

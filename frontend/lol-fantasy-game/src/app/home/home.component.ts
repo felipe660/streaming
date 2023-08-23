@@ -29,6 +29,9 @@ export class HomeComponent implements OnInit {
     },
     {
       name: "INTZ"
+    },
+    {
+      name: "Red Canids"
     }
   ]
   red_power: number = 0;
@@ -200,9 +203,7 @@ export class HomeComponent implements OnInit {
       game_time = Math.random()*3000;
       game_time = Math.round(game_time);
     }
-    // red_team = Math.random();
-    // blue_team  = Math.random();
-    // console.log(red_team, blue_team);
+
     match.game_time = this.time_convert(game_time);
     console.log('Partida:', match);
     this.modalMatchInfos = match;
@@ -265,12 +266,48 @@ export class HomeComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.openModal(this.modalReference);
+        this.finishMatch();
       },
       (err: any) => {
         // this.openModal(this.modalReference);
         console.log(err);
       }
     );
+  }
+
+  finishMatch(): void {
+    this.matchesService.finishMatch(this.modalMatchInfos).subscribe(
+      (res: any) => {
+        this.deleteMatch();
+        console.log(res);
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
+
+  deleteMatch(): void{
+    this.matchesService.deleteMatchFromChampionship(this.modalMatchInfos.id).subscribe(
+      (res: any) => {
+        console.log(res);
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+    this.matchesService.deleteMatch(this.modalMatchInfos.id).subscribe(
+      (res: any) => {
+        console.log(res);
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
+
+  reloadWindow(): void {
+    window.location.reload()
   }
 
   openModal(content: any): void {

@@ -25,4 +25,16 @@ export class MatchesService {
   getTournamentInfos(id: number): any {
     return this.http.get(`${this.BASE_URI}/${id}`);
   }
+
+  finishMatch(dto: any): any{
+    return this.http.post(`${this.BASE_URI}/finishmatches`, dto);
+  }
+
+  deleteMatch(id:number): any{
+    return this.http.delete(`${this.BASE_URI}/${id}`);
+  }
+
+  deleteMatchFromChampionship(id:number): any{
+    return this.http.delete(`${this.BASE_URI}/championshiphasmatches/${id}`);
+  }
 }

@@ -118,7 +118,28 @@ async function connect() {
       [user.wins, user.loses, user.id]
     );
   }
-  
+
+  async function finishMatch(user){
+    const client = await connect();
+    await client.query("INSERT INTO finishmatches(blue_gold,blue_kills,blue_team_dice,game_time,id_blue_team,id_championship,id_red_team,red_gold,red_kills,red_team_dice,winner) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)"
+    , [user.blue_gold, user.blue_kills, user.blue_team_dice, user.game_time, user.id_blue_team, user.id_championship, user.id_red_team, user.red_gold, user.red_kills, user.red_team_dice, user.winner]);
+  }
+
+  async function deleteMatch(id) {
+    const client = await connect();
+    await client.query(
+      "DELETE FROM match WHERE id=$1",
+      [id]
+    );
+  }
+
+  async function deleteMatchFromChampionship(id) {
+    const client = await connect();
+    await client.query(
+      "DELETE FROM championshiphasmatches WHERE id_match=$1",
+      [id]
+    );
+  }
 
   async function selectTeamInfoById(id){
     const client = await connect();
@@ -143,5 +164,8 @@ async function connect() {
     selectTournamentInfos,
     selectResults,
     results,
-    selectTeamInfoById
+    selectTeamInfoById,
+    finishMatch,
+    deleteMatch,
+    deleteMatchFromChampionship
   }
