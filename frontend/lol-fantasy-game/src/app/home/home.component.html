@@ -12,11 +12,11 @@
                         <div class="col-12 d-flex justify-content-center">
                             <h3>Matches</h3>
                         </div>
-                        <div class="mt-1 row" *ngFor="let match of matches">
+                        <div class="mt-1 row" *ngFor="let match of matches; let i=index">
                             <div *ngIf="this.match.id_championship === championship.id" class="col-12 d-flex justify-content-center align-items-center">
                                 {{this.teamsEnum[match.id_red_team].name}} X {{this.teamsEnum[match.id_blue_team].name}}
-                                <button *ngIf="this.campaign.id_team === match.id_red_team || this.campaign.id_team === match.id_blue_team" class="btn btn-success ms-3" (click)="play(match, championship)">Jogar</button>
-                                <button *ngIf="this.campaign.id_team !== match.id_red_team && this.campaign.id_team !== match.id_blue_team" class="btn btn-danger ms-3" (click)="play(match, championship)">Simular</button>
+                                <button *ngIf="(this.campaign.id_team === match.id_red_team || this.campaign.id_team === match.id_blue_team) && i === 0" class="btn btn-success ms-3" (click)="play(match, championship, details)">Jogar</button>
+                                <button *ngIf="this.campaign.id_team !== match.id_red_team && this.campaign.id_team !== match.id_blue_team && i === 0" class="btn btn-danger ms-3" (click)="play(match, championship, simulate)">Simular</button>
                             </div>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                         </div>
                         <div class="mt-1 row" *ngFor="let team of table">
                             <div *ngIf="this.team.id_championship === championship.id" class="col-12 d-flex justify-content-center align-items-center">
-                                {{team.id_team}} - Wins: {{team.wins}} / Loses: {{team.loses}}
+                                {{this.teamsEnum[team.id_team].name}} - Wins: {{team.wins}} / Loses: {{team.loses}}
                             </div>
                         </div>
                     </div>
@@ -43,3 +43,63 @@
         </div>
     </div>
 </div>
+
+<ng-template #details>
+    <div class="container">
+        <!-- <div class="modal-header d-inline">
+            <div class="row">
+                <div class="col-6 offset-3 d-flex justify-content-center">
+                    <h4 class="modal-title">Sua partida</h4>
+                </div>
+                <div class="col-3 d-flex justify-content-end">
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                </div>
+            </div>
+        </div> -->
+        <div class="modal-body mt-0">
+            <div class="row">
+                <div class="col-12">
+                    <h3 *ngIf="this.modalMatchInfos.winner === 1" class="d-flex justify-content-center" style="color: green;">VITÓRIA</h3>
+                    <h3 *ngIf="this.modalMatchInfos.winner !== 1" class="d-flex justify-content-center" style="color: red;">DERROTA</h3>
+                </div>
+                <div class="col-12">
+                    <h3 class="d-flex justify-content-center">Tempo de Jogo: {{this.modalMatchInfos.game_time}} min</h3>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <img src="../../assets/imgs/mini-map.jpg">
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="row" *ngFor="let player of this.modalMatchInfos.blue_team_players">
+                        <h5>{{player.name}} / {{player.role}}</h5>
+                        <p>Power: {{player.power}}</p> 
+                    </div>
+                </div>
+                <div class="offset-4 col-4">
+                    <div class="row" *ngFor="let player of this.modalMatchInfos.red_team_players">
+                        <h5>{{player.name}} / {{player.role}}</h5>
+                        <p>Power: {{player.power}}</p> 
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn btn-success">CONFIRMAR</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #simulate>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Simulação</h4>
+      <button type="button" class="close pull-right" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      Jogo Simulado
+    </div>
+</ng-template>

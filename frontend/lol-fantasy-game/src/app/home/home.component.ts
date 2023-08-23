@@ -5,6 +5,7 @@ import { PlayersService } from '../common/services/players.service';
 import { ChampionshipService } from '../common/services/championship.service';
 import { MatchesService } from '../common/services/matches.service';
 import { ChampionshiphasteamsService } from '../common/services/championshiphasteams.service';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -33,18 +34,20 @@ export class HomeComponent implements OnInit {
   red_power: number = 0;
   blue_power: number = 0;campaign: any;
   dto = {
-    id : 1,
-    id_championship : 1,
-    id_team : 1,
-    wins : 5,
-    loses : 4,
-  }
-;
+    wins: '',
+    loses: '',
+  };
   table: any;
+
+  modalRef: NgbModalRef | undefined;
+  modalReference: any;
+  modalMatchInfos: any;
+
 
   constructor(
     public teamService: TeamService,
     public campaignService: CampaignService,
+    private modalService: NgbModal,
     public playersService: PlayersService,
     public championshipService: ChampionshipService,
     public matchesService: MatchesService,
@@ -94,11 +97,11 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  getTeam(id: number, position: number): any {
+  getTeam(id: number): any {
     console.log(id)
     this.teamService.getById(id).subscribe(
       (res: any) => {
-        console.log(res[0].name);
+        console.log(res[0]);
         // this.name[position] = res[0].name;
       },
       (err: any) => {
@@ -143,7 +146,8 @@ export class HomeComponent implements OnInit {
     console.log(this.matches);
   }
 
-  play(match: any, championship: any): void {
+  play(match: any, championship: any, content?: any): void {
+    this.modalReference = content;
     console.log(match, championship);
     this.red_power = 0;
     this.blue_power = 0;
@@ -173,34 +177,79 @@ export class HomeComponent implements OnInit {
           match.blue_team_total_power = this.blue_power
         }
         match.blue_team_dice = this.rollDice(match.blue_team_total_power);
+
+        //
+
         if(match.blue_team_dice > match.red_team_dice){
           match.winner = match.id_blue_team;
+          this.postResults(match.id_red_team);
+          this.postLoser(match.winner);
     
         }
         if(match.red_team_dice > match.blue_team_dice){
           match.winner = match.id_red_team;
+          this.postResults(match.id_blue_team);
+          this.postLoser(match.winner);
         } 
       },
       (err: any) => {
       }
     );
 
-    while(game_time < 17 || game_time > 55){
-      game_time = Math.random()*100;
+    while(game_time < 1100 || game_time > 2700){
+      game_time = Math.random()*3000;
+      game_time = Math.round(game_time);
     }
     // red_team = Math.random();
     // blue_team  = Math.random();
     // console.log(red_team, blue_team);
-    match.game_time = game_time;
+    match.game_time = this.time_convert(game_time);
     console.log('Partida:', match);
+    this.modalMatchInfos = match;
 
-    this.postResults();
   }
 
-  postResults(): void {
-    
-    console.log(this.dto);
+  time_convert(num: number): any{ 
+  var hours = Math.floor(num / 60);  
+  var minutes = num % 60;
+  return hours + ":" + minutes;         
+}
 
+  getTeamInfo(id: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.championsTeamsService.getTeamInfo(id).subscribe(
+        (res: any) => {
+          console.log("Vencedor", res);
+          this.dto = res[0];
+          this.dto.wins += 1;
+          this.updateTable();
+          resolve(res); // Resolvendo a Promise com a resposta do serviço
+        },
+        (err: any) => {
+          reject(err); // Rejeitando a Promise com o erro do serviço
+        }
+      );
+    });
+  }
+
+  async getTeamInfoLoser(id: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.championsTeamsService.getTeamInfo(id).subscribe(
+        (res: any) => {
+          console.log("Perdedor", res);
+          this.dto = res[0];
+          this.dto.loses += 1;
+          this.updateTableLoser();
+          resolve(res); // Resolvendo a Promise com a resposta do serviço
+        },
+        (err: any) => {
+          reject(err); // Rejeitando a Promise com o erro do serviço
+        }
+      );
+    });
+  }
+
+  updateTableLoser(): void {
     this.championsTeamsService.putResults(this.dto).subscribe(
       (res: any) => {
         console.log(res);
@@ -209,7 +258,50 @@ export class HomeComponent implements OnInit {
         console.log(err);
       }
     );
-    this.getTables();
+  }
+
+  updateTable(): void {
+    this.championsTeamsService.putResults(this.dto).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.openModal(this.modalReference);
+      },
+      (err: any) => {
+        // this.openModal(this.modalReference);
+        console.log(err);
+      }
+    );
+  }
+
+  openModal(content: any): void {
+    console.log('abrir modal')
+    this.modalRef = this.modalService.open(content, { size: 'xl' });
+  }
+
+  async postResults(id: any): Promise<void> {
+    try {
+      const teamInfo = this.getTeamInfoLoser(id);
+      teamInfo;
+      this.getTables(); // Só será chamado após o getTeamInfo ser concluído
+      this.getTables(); // Só será chamado após o getTeamInfo ser concluído
+      this.getTables(); // Só será chamado após o getTeamInfo ser concluído
+      this.getTables(); // Só será chamado após o getTeamInfo ser concluído
+    } catch (error) {
+      console.error("Erro ao obter informações do time:", error);
+    }
+  }
+
+  async postLoser(id: any): Promise<void> {
+    try {
+      const teamInfo = await this.getTeamInfo(id);
+      teamInfo;
+      this.getTables(); // Só será chamado após o getTeamInfo ser concluído
+      this.getTables(); // Só será chamado após o getTeamInfo ser concluído
+      this.getTables(); // Só será chamado após o getTeamInfo ser concluído
+      this.getTables(); // Só será chamado após o getTeamInfo ser concluído
+    } catch (error) {
+      console.error("Erro ao obter informações do time:", error);
+    }
   }
 
   rollDice(power: any): any {

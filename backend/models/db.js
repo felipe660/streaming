@@ -118,6 +118,14 @@ async function connect() {
       [user.wins, user.loses, user.id]
     );
   }
+  
+
+  async function selectTeamInfoById(id){
+    const client = await connect();
+    const res = await client.query("SELECT * FROM championshiphasteams WHERE id_team=$1", [id]);
+    return res.rows;
+  }
+
 
   module.exports = {
     selectUsers,
@@ -134,5 +142,6 @@ async function connect() {
     selectChampionships,
     selectTournamentInfos,
     selectResults,
-    results
+    results,
+    selectTeamInfoById
   }

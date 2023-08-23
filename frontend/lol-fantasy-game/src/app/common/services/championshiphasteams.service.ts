@@ -18,4 +18,8 @@ export class ChampionshiphasteamsService {
   allResults(): any{
     return this.http.get(`${this.BASE_URI}`);
   }
+
+  getTeamInfo(id: any): any {
+    return this.http.get(`${this.BASE_URI}/${id}`);
+  }
 }

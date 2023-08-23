@@ -31,7 +31,7 @@ app.get("/users/:id", async (req,res)=>{
     res.json(users);
 })
 
-app.post("/users/login", async (req,res)=>{ 
+app.get("/users/login", async (req,res)=>{ 
     const user = await db.selectUserByInfo(req.body);
     return res.json(user);
 })
@@ -86,12 +86,6 @@ app.get("/player/:id", async (req, res) => {
     res.json(campaigns);
 })
 
-// app.patch("/championship/championshiphasteams/:id", async (req,res) => {
-//     console.log(req.params.id, req.body) 
-//     await db.updateResults(req.params.id, req.body);
-//     res.sendStatus(200);
-// })
-
 app.get("/results", async (req,res)=>{ 
     const users = await db.selectResults();
     res.json(users);
@@ -99,8 +93,15 @@ app.get("/results", async (req,res)=>{
 
 app.post("/results/:id", async (req,res) =>{
     await db.results(req.params.id, req.body);
-    res.sendStatus(200);
+    return res.status(200).json({ message: "Success", code: 200 })
 })
+
+app.get("/results/:id", async (req,res) =>{
+    const users = await db.selectTeamInfoById(req.params.id);
+    res.json(users);
+})
+
+
 
 
 app.listen(port);
