@@ -21,35 +21,42 @@ app.get("/", async (req, res ) =>{
     })
 });
 
-app.get("/users", async (req,res)=>{ 
-    const users = await db.selectUsers();
-    res.json(users);
-})
+app.get("/users/login", async (req, res) => {
+    try {
+        console.log("Received query parameters:", req.query);
+        const user = await db.selectUserInfo(req.query); // Use req.query para obter os parâmetros da consulta
+        return res.json(user);
+    } catch (error) {
+        console.error("Error:", error);
+        return res.status(500).json({ error: "An error occurred." });
+    }
+});
 
-app.get("/users/:id", async (req,res)=>{ 
-    const users = await db.selectUserById(req.params.id);
-    res.json(users);
-})
 
-app.get("/users/login", async (req,res)=>{ 
-    const user = await db.selectUserByInfo(req.body);
-    return res.json(user);
-})
+// app.get("/users", async (req,res)=>{ 
+//     const users = await db.selectUsers();
+//     res.json(users);
+// })
 
-app.post("/users", async (req,res) => { 
-    await db.insertUser(req.body);
-    return res.status(201).json({ message: "Success", code: 201 })
-})
+// app.get("/users/:id", async (req,res)=>{ 
+//     const users = await db.selectUserById(req.params.id);
+//     res.json(users);
+// })
 
-app.patch("/users/:id", async (req,res) => { 
-    await db.updateUser(req.params.id, req.body);
-    res.sendStatus(200);
-})
+// app.post("/users", async (req,res) => { 
+//     await db.insertUser(req.body);
+//     return res.status(201).json({ message: "Success", code: 201 })
+// })
 
-app.delete("/users/:id", async (req,res) => { 
-    await db.deleteUser(req.params.id);
-    res.sendStatus(204);
-})
+// app.patch("/users/:id", async (req,res) => { 
+//     await db.updateUser(req.params.id, req.body);
+//     res.sendStatus(200);
+// })
+
+// app.delete("/users/:id", async (req,res) => { 
+//     await db.deleteUser(req.params.id);
+//     res.sendStatus(204);
+// })
 
 app.get("/campaign/:id", async (req, res) => { 
     const campaigns = await db.selectCampaign(req.params.id); 
@@ -115,8 +122,10 @@ app.get("/results/:id", async (req,res) =>{
     res.json(users);
 })
 
-
-
+app.get("/champions", async (req,res)=>{ 
+    const users = await db.selectChampions();
+    res.json(users);
+})
 
 
 app.listen(port);

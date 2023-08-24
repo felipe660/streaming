@@ -6,6 +6,8 @@ import { ChampionshipService } from '../common/services/championship.service';
 import { MatchesService } from '../common/services/matches.service';
 import { ChampionshiphasteamsService } from '../common/services/championshiphasteams.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ChampionsService } from '../common/services/champions.service';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-home',
@@ -45,6 +47,84 @@ export class HomeComponent implements OnInit {
   modalRef: NgbModalRef | undefined;
   modalReference: any;
   modalMatchInfos: any;
+  blue_team_draft = [
+  {
+    id: 0,
+    name: '',
+    role: 'Top',
+    selectTime: false,
+    id_champion:1
+    },
+    {
+    id: 1,
+    name: '',
+    role: 'Jungle',
+    selectTime: false,
+    id_champion:2
+    },
+    {
+    id: 2,
+    name: '',
+    role: 'Mid',
+    selectTime: false,
+    id_champion:3
+    },
+    {
+    id: 3,
+    name: '',
+    role: 'Bot',
+    selectTime: false,
+    id_champion:4
+    },
+    {
+    id: 4,
+    name: '',
+    role: 'Suporte',
+    selectTime: false,
+    id_champion:5
+    },
+  ]
+  red_team_draft = [
+    {
+    id: 0,
+    name: '',
+    role: 'Top',
+    selectTime: true,
+    id_champion:6
+    },
+    {
+    id: 1,
+    name: '',
+    role: 'Jungle',
+    selectTime: false,
+    id_champion:7
+    },
+    {
+    id: 2,
+    name: '',
+    role: 'Mid',
+    selectTime: false,
+    id_champion:8
+    },
+    {
+    id: 3,
+    name: '',
+    role: 'Bot',
+    selectTime: false,
+    id_champion:9
+    },
+    {
+    id: 4,
+    name: '',
+    role: 'Suporte',
+    selectTime: false,
+    id_champion:10
+    },
+]
+  championList: any;
+  championAlert: boolean = false;
+  draft_End: boolean = false;
+  championAlertEmpty: boolean = false;
 
 
   constructor(
@@ -53,6 +133,7 @@ export class HomeComponent implements OnInit {
     private modalService: NgbModal,
     public playersService: PlayersService,
     public championshipService: ChampionshipService,
+    public championsService: ChampionsService,
     public matchesService: MatchesService,
     public championsTeamsService: ChampionshiphasteamsService
   ) { }
@@ -60,6 +141,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getCampaign();
     this.getTables();
+    this.getAllChampions();
   }
 
   getTables(): void {
@@ -67,6 +149,17 @@ export class HomeComponent implements OnInit {
       (res: any) => {
         console.log(res)
         this.table = res;
+      },
+      (err: any) => {
+      }
+    );
+  }
+
+  getAllChampions(): void {
+    this.championsService.getAll().subscribe(
+      (res: any) => {
+        console.log('champions banco:',res);
+        this.championList = res;
       },
       (err: any) => {
       }
@@ -149,8 +242,31 @@ export class HomeComponent implements OnInit {
     console.log(this.matches);
   }
 
+  calculateDrafrt(details:any): void{
+    this.winner();
+    console.log("Infos",this.modalMatchInfos)
+    this.openModal(details);
+  }
+
+
+  winner(): void{
+    if(this.modalMatchInfos.blue_team_dice > this.modalMatchInfos.red_team_dice){
+      this.modalMatchInfos.winner = this.modalMatchInfos.id_blue_team;
+      // this.postResults(match.id_red_team);
+      // this.postLoser(match.winner);
+
+    }
+    if(this.modalMatchInfos.red_team_dice > this.modalMatchInfos.blue_team_dice){
+      this.modalMatchInfos.winner = this.modalMatchInfos.id_red_team;
+      // this.postResults(match.id_blue_team);
+      // this.postLoser(match.winner);
+    } 
+  }
+
   play(match: any, championship: any, content?: any): void {
+    this.getAllChampions();
     this.modalReference = content;
+    this.openModal(this.modalReference);
     console.log(match, championship);
     this.red_power = 0;
     this.blue_power = 0;
@@ -181,19 +297,6 @@ export class HomeComponent implements OnInit {
         }
         match.blue_team_dice = this.rollDice(match.blue_team_total_power);
 
-        //
-
-        if(match.blue_team_dice > match.red_team_dice){
-          match.winner = match.id_blue_team;
-          this.postResults(match.id_red_team);
-          this.postLoser(match.winner);
-    
-        }
-        if(match.red_team_dice > match.blue_team_dice){
-          match.winner = match.id_red_team;
-          this.postResults(match.id_blue_team);
-          this.postLoser(match.winner);
-        } 
       },
       (err: any) => {
       }
@@ -207,7 +310,6 @@ export class HomeComponent implements OnInit {
     match.game_time = this.time_convert(game_time);
     console.log('Partida:', match);
     this.modalMatchInfos = match;
-
   }
 
   time_convert(num: number): any{ 
@@ -232,6 +334,7 @@ export class HomeComponent implements OnInit {
       );
     });
   }
+
 
   async getTeamInfoLoser(id: any): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -311,7 +414,6 @@ export class HomeComponent implements OnInit {
   }
 
   openModal(content: any): void {
-    console.log('abrir modal')
     this.modalRef = this.modalService.open(content, { size: 'xl' });
   }
 
@@ -338,6 +440,112 @@ export class HomeComponent implements OnInit {
       this.getTables(); // Só será chamado após o getTeamInfo ser concluído
     } catch (error) {
       console.error("Erro ao obter informações do time:", error);
+    }
+  }
+
+  nextRedPlayer(champion: any, championList: any): void{
+    this.championAlert = false;
+    this.championAlertEmpty = false;
+    if(!champion.id_champion){
+      this.championAlertEmpty = true;
+    } else {
+      this.championAlertEmpty = false;
+    }
+    var cont;
+    for(let i = 0; i< this.championList.length; i++){
+      if(champion.id_champion === this.championList[i].id){
+        this.nextChampionSelectRed(champion, championList);
+        cont = 1;
+      }
+    }
+    if(!cont && champion.id_champion){
+      this.championAlert = true;
+      console.log('Campeão ja selecionado!');
+    } else {
+      this.championAlert = false;
+    }
+  }
+
+  nextBluePlayer(champion: any, championList: any): void{
+    this.championAlert = false;
+    this.championAlertEmpty = false;
+    if(!champion.id_champion){
+      this.championAlertEmpty = true;
+    }
+    var cont;
+    for(let i = 0; i< this.championList.length; i++){
+      if(champion.id_champion === this.championList[i].id){
+        this.nextChampionSelectBlue(champion, championList);
+        cont = 1;
+      }
+    }
+    if(!cont && champion.id_champion){
+      this.championAlert = true;
+      console.log('Campeão ja selecionado!');
+    } else {
+      this.championAlert = false;
+    }
+  }
+
+  nextChampionSelectRed(champion: any, championList: any): void {
+    for(let i = 0; i < championList.length; i++){
+        if(champion.id_champion === championList[i].id){
+          champion.name = this.championList[i].name
+          champion.win_rate = this.championList[i].win_rate;
+          // TODO Ajustar o winrate
+          this.modalMatchInfos.red_team_win_rate = champion.win_rate;
+          this.championList.splice(i, 1);
+        }
+    }
+    if(champion.id == 0){
+      champion.selectTime = false;
+      this.blue_team_draft[0].selectTime = true;
+    }
+    if(champion.id == 1){
+      this.red_team_draft[1].selectTime = false;
+      this.red_team_draft[2].selectTime = true;
+    }
+    if(champion.id == 2){
+      this.red_team_draft[2].selectTime = false;
+      this.blue_team_draft[2].selectTime = true;
+    }
+    if(champion.id == 3){
+      this.red_team_draft[3].selectTime = false;
+      this.red_team_draft[4].selectTime = true;
+    }
+    if(champion.id == 4){
+      this.red_team_draft[4].selectTime = false;
+      this.blue_team_draft[4].selectTime = true;
+    }
+  }
+
+  nextChampionSelectBlue(champion: any, championList: any): void {
+    for(let i = 0; i < championList.length; i++){
+      if(champion.id_champion === championList[i].id){
+        champion.name = this.championList[i].name
+        champion.win_rate = this.championList[i].win_rate;
+        this.championList.splice(i, 1);
+      }
+  }
+    if(champion.id == 0){
+      champion.selectTime = false;
+      this.blue_team_draft[1].selectTime = true;
+    }
+    if(champion.id == 1){
+      this.blue_team_draft[1].selectTime = false;
+      this.red_team_draft[1].selectTime = true;
+    }
+    if(champion.id == 2){
+      this.blue_team_draft[2].selectTime = false;
+      this.blue_team_draft[3].selectTime = true;
+    }
+    if(champion.id == 3){
+      this.blue_team_draft[3].selectTime = false;
+      this.red_team_draft[3].selectTime = true;
+    }
+    if(champion.id == 4){
+      this.blue_team_draft[4].selectTime = false;
+      this.draft_End = true;
     }
   }
 

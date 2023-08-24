@@ -15,7 +15,7 @@
                         <div class="mt-1 row" *ngFor="let match of matches; let i=index">
                             <div *ngIf="match.id_championship === championship.id" class="col-12 d-flex justify-content-center align-items-center">
                                 {{this.teamsEnum[match.id_red_team].name}} X {{this.teamsEnum[match.id_blue_team].name}}
-                                <button *ngIf="(this.campaign.id_team === match.id_red_team || this.campaign.id_team === match.id_blue_team) && i === 0" class="btn btn-success ms-3" (click)="play(match, championship, details)">Jogar</button>
+                                <button *ngIf="(this.campaign.id_team === match.id_red_team || this.campaign.id_team === match.id_blue_team) && i === 0" class="btn btn-success ms-3" (click)="play(match, championship, draft)">Jogar</button>
                                 <button *ngIf="this.campaign.id_team !== match.id_red_team && this.campaign.id_team !== match.id_blue_team && i === 0" class="btn btn-danger ms-3" (click)="play(match, championship, simulate)">Simular</button>
                             </div>
                         </div>
@@ -103,4 +103,35 @@
       Jogo Simulado
     </div>
     <button class="btn btn-success" (click)="this.reloadWindow()">CONFIRMAR</button>
+</ng-template>
+
+<ng-template #draft>
+    <div class="modal-body">
+        <div class="row d-flex text-center">
+            <h4 class="modal-title">Draft</h4>
+          </div>
+      <div class="row m-5">
+        <div class="col-4">
+            <div class="row" *ngFor="let champion of red_team_draft">
+                <span class="p-0">{{champion.role}}</span>
+                <div class="" style="width: 40px; height: 40px; background-color: red;"></div>
+                <ng-select [items]="this.championList" bindLabel="name" bindValue="id" [(ngModel)]="champion.id_champion" [disabled]="champion.selectTime === false"></ng-select>
+                <button class="btn btn-success" *ngIf="champion.selectTime" (click)="this.nextRedPlayer(champion, this.championList)">Confirmar</button>
+            </div>
+        </div>
+        <div class="col-4 d-flex text-center">
+            <h2 *ngIf="this.championAlert" style="color:red">CAMPEÃO SELECIONADO!</h2>
+            <h2 *ngIf="this.championAlertEmpty" style="color:red">SELECIONE UM CAMPEÃO!</h2>
+        </div>
+        <div class="col-4">
+            <div class="row d-flex justify-content-end text-end" *ngFor="let champion of blue_team_draft">
+                <span class="p-0">{{champion.role}}</span>
+                <div class="" style="width: 40px; height: 40px; background-color: blue;"></div>
+                <ng-select [items]="this.championList" bindLabel="name" bindValue="id" [(ngModel)]="champion.id_champion" [disabled]="champion.selectTime === false"></ng-select>
+                <button class="btn btn-success" *ngIf="champion.selectTime" (click)="this.nextBluePlayer(champion, this.championList)">Confirmar</button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-success" *ngIf="this.draft_End" (click)="this.calculateDrafrt(details);">Começar</button>
 </ng-template>

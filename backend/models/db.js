@@ -35,7 +35,7 @@ async function connect() {
     return res.rows;
   }
 
-  async function selectUserByInfo(user){
+  async function selectUserInfo(user){
     const client = await connect();
     const res = await client.query("SELECT * FROM users WHERE email=$1 and password=$2", [user.email, user.password]);
     return res.rows;
@@ -91,6 +91,12 @@ async function connect() {
     const res = await client.query("SELECT * FROM championship");
     return res.rows;
   }
+  async function selectChampions(){
+    const client = await connect();
+    const res = await client.query("SELECT * FROM champion");
+    return res.rows;
+  }
+
 
   async function selectMatches(){
     const client = await connect();
@@ -151,7 +157,7 @@ async function connect() {
   module.exports = {
     selectUsers,
     selectUserById,
-    selectUserByInfo,
+    selectUserInfo,
     updateUser,
     insertUser,
     deleteUser,
@@ -167,5 +173,6 @@ async function connect() {
     selectTeamInfoById,
     finishMatch,
     deleteMatch,
-    deleteMatchFromChampionship
+    deleteMatchFromChampionship,
+    selectChampions
   }
