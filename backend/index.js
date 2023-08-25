@@ -68,19 +68,39 @@ app.get("/team/:id", async (req, res) => {
     res.json(campaigns);
 })
 
+app.get("/team/user/:id", async (req, res) => { 
+    const campaigns = await db.selectUserTeam(req.params.id); 
+    res.json(campaigns);
+})
+
 app.get("/team", async (req,res)=>{ 
     const users = await db.selectTeams();
     res.json(users);
 })
 
-app.get("/championship", async (req,res)=>{ 
-    const users = await db.selectChampionships();
+app.post("/team", async (req,res) => { 
+    await db.insertTeam(req.body);
+    return res.status(201).json({ message: "Success", code: 201 })
+})
+
+app.post("/championship", async (req,res) => { 
+    await db.insertChampionships(req.body);
+    return res.status(201).json({ message: "Success", code: 201 })
+})
+
+app.get("/championship/:id", async (req,res)=>{ 
+    const users = await db.selectChampionships(req.params.id);
     res.json(users);
 })
 
-app.get("/matches", async (req,res)=>{ 
-    const users = await db.selectMatches();
+app.get("/matches/:id", async (req,res)=>{
+    const users = await db.selectMatches(req.params.id);
     res.json(users);
+})
+
+app.post("/matches", async (req,res) => { 
+    await db.registerMatch(req.body);
+    return res.status(201).json({ message: "Success", code: 201 })
 })
 
 app.get("/matches/:id", async (req,res)=>{ 
@@ -91,6 +111,11 @@ app.get("/matches/:id", async (req,res)=>{
 app.delete("/matches/:id", async (req,res) => { 
     await db.deleteMatch(req.params.id);
     res.sendStatus(204);
+})
+
+app.post("/matches/championshihasmatches", async (req,res) => { 
+    await db.championshipHasMatches(req.body);
+    return res.status(201).json({ message: "Success", code: 201 })
 })
 
 app.post("/matches/finishmatches", async (req,res) => { 
@@ -117,9 +142,20 @@ app.post("/results/:id", async (req,res) =>{
     return res.status(200).json({ message: "Success", code: 200 })
 })
 
+
 app.get("/results/:id", async (req,res) =>{
     const users = await db.selectTeamInfoById(req.params.id);
     res.json(users);
+})
+
+// app.post("/results", async (req,res) =>{
+//     await db.registerTeam(req.body);
+//     return res.status(200).json({ message: "Success", code: 200 })
+// })
+
+app.post("/results", async (req,res) =>{
+    await db.registerTeam(req.body);
+    return res.status(200).json({ message: "Success", code: 200 })
 })
 
 app.get("/champions", async (req,res)=>{ 

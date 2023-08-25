@@ -45,6 +45,15 @@ async function connect() {
     const client = await connect();
     await client.query("INSERT INTO users(name,surname,email,password,created_at) VALUES ($1,$2,$3,$4,$5)", [user.name, user.surname, user.email, user.password, user.created_at]);
   }
+  async function insertTeam(user){
+    const client = await connect();
+    await client.query("INSERT INTO teams(name,id_user,is_main_team) VALUES ($1,$2,$3)", [user.name, user.id_user, user.is_main_team]);
+  }
+
+  async function insertChampionships(user){
+    const client = await connect();
+    await client.query("INSERT INTO championship(name,id_user,year) VALUES ($1,$2,$3)", [user.name, user.id_user, user.year]);
+  }
 
   async function updateUser(id, user) {
     const client = await connect();
@@ -74,6 +83,12 @@ async function connect() {
     return res.rows;
   }
 
+  async function selectUserTeam(id){
+    const client = await connect();
+    const res = await client.query("SELECT * FROM teams WHERE id_user=$1", [id]);
+    return res.rows;
+  }
+
   async function selectPlayers(id){
     const client = await connect();
     const res = await client.query("SELECT * FROM player WHERE id_team=$1", [id]);
@@ -86,9 +101,9 @@ async function connect() {
     return res.rows;
   }
 
-  async function selectChampionships(){
+  async function selectChampionships(id){
     const client = await connect();
-    const res = await client.query("SELECT * FROM championship");
+    const res = await client.query("SELECT * FROM championship WHERE id_user=$1", [id]);
     return res.rows;
   }
   async function selectChampions(){
@@ -98,9 +113,9 @@ async function connect() {
   }
 
 
-  async function selectMatches(){
+  async function selectMatches(id){
     const client = await connect();
-    const res = await client.query("SELECT * FROM match");
+    const res = await client.query("SELECT * FROM match WHERE id_user=$1", [id]);
     return res.rows;
   }
 
@@ -131,6 +146,18 @@ async function connect() {
     , [user.blue_gold, user.blue_kills, user.blue_team_dice, user.game_time, user.id_blue_team, user.id_championship, user.id_red_team, user.red_gold, user.red_kills, user.red_team_dice, user.winner]);
   }
 
+  async function championshipHasMatches(user){
+    const client = await connect();
+    await client.query("INSERT INTO championshiphasmatches(id_user, id_championship, id_match) VALUES ($1,$2,$3)"
+    , [user.id_user, user.id_championship, user.id]);
+  }
+
+  async function registerMatch(user){
+    const client = await connect();
+    await client.query("INSERT INTO match(id_blue_team, id_red_team,id_championship, id_user) VALUES ($1,$2,$3,$4)"
+    , [user.id_blue_team, user.id_red_team, user.id_championship, user.id_user]);
+  }
+
   async function deleteMatch(id) {
     const client = await connect();
     await client.query(
@@ -153,6 +180,11 @@ async function connect() {
     return res.rows;
   }
 
+  async function registerTeam(user){
+    const client = await connect();
+    await client.query("INSERT INTO championshiphasteams(id_team,id_championship,wins,loses) VALUES ($1,$2,$3,$4)", [user.id_team, user.id_championship, 0, 0]);
+  }
+
 
   module.exports = {
     selectUsers,
@@ -160,8 +192,12 @@ async function connect() {
     selectUserInfo,
     updateUser,
     insertUser,
+    championshipHasMatches,
     deleteUser,
+    selectUserTeam,
     selectCampaign,
+    insertTeam,
+    registerTeam,
     selectTeam,
     selectTeams,
     selectPlayers,
@@ -169,8 +205,10 @@ async function connect() {
     selectChampionships,
     selectTournamentInfos,
     selectResults,
+    registerMatch,
     results,
     selectTeamInfoById,
+    insertChampionships,
     finishMatch,
     deleteMatch,
     deleteMatchFromChampionship,

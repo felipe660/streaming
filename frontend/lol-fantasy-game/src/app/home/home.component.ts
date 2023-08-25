@@ -37,7 +37,8 @@ export class HomeComponent implements OnInit {
     }
   ]
   red_power: number = 0;
-  blue_power: number = 0;campaign: any;
+  blue_power: number = 0;
+  campaign: any;
   dto = {
     wins: '',
     loses: '',
@@ -125,6 +126,7 @@ export class HomeComponent implements OnInit {
   championAlert: boolean = false;
   draft_End: boolean = false;
   championAlertEmpty: boolean = false;
+  hideChampionships: boolean = true;
 
 
   constructor(
@@ -167,9 +169,9 @@ export class HomeComponent implements OnInit {
   }
 
   getCampaign(): void {
-    this.campaignService.getByUserId(1).subscribe(
+    this.campaignService.getByUserId(localStorage.getItem('id')).subscribe(
       (res: any) => {
-        console.log(res)
+        console.log("campanha", res)
         this.campaign = res[0];
         // this.getAllTeams();
         this.getAllMatches();
@@ -183,7 +185,7 @@ export class HomeComponent implements OnInit {
   }
 
   getChampionship(): void {
-    this.championshipService.getAll().subscribe(
+    this.championshipService.getAll(localStorage.getItem('id')).subscribe(
       (res: any) => {
         console.log(res);
         this.championships = res;
@@ -215,32 +217,33 @@ export class HomeComponent implements OnInit {
   }
 
   getAllMatches(): void {
-    this.matchesService.getAll().subscribe(
+    this.matchesService.getAll(1).subscribe(
       (res: any) => {
         this.matches = res;
-        this.getTournamentInfos(res[0].id);
+        console.log("Partidas", res)
+        // this.getTournamentInfos(res[0].id);
       },
       (err: any) => {
       }
     );
   }
 
-  getTournamentInfos(id: number): void {
-    this.matchesService.getTournamentInfos(id).subscribe(
-      (res: any) => {
-        for(let i of res){
-          for(let x = 0; this.matches.length > x; x++){
-            if(i.id === this.matches[x].id){
-              this.matches[x].id_championship = i.id_championship;
-            }
-          }
-        }
-      },
-      (err: any) => {
-      }
-    );
-    console.log(this.matches);
-  }
+  // getTournamentInfos(id: number): void {
+  //   // this.matchesService.getTournamentInfos(id).subscribe(
+  //   //   (res: any) => {
+  //   //     for(let i of res){
+  //   //       for(let x = 0; this.matches.length > x; x++){
+  //   //         if(i.id === this.matches[x].id){
+  //   //           this.matches[x].id_championship = i.id_championship;
+  //   //         }
+  //   //       }
+  //   //     }
+  //   //   },
+  //   //   (err: any) => {
+  //   //   }
+  //   // );
+  //   console.log("Partidas2",this.matches);
+  // }
 
   calculateDrafrt(details:any): void{
     this.winner();
@@ -267,7 +270,6 @@ export class HomeComponent implements OnInit {
     this.getAllChampions();
     this.modalReference = content;
     this.openModal(this.modalReference);
-    console.log(match, championship);
     this.red_power = 0;
     this.blue_power = 0;
     let game_time = 0
@@ -554,9 +556,9 @@ export class HomeComponent implements OnInit {
     
     let dice = 0
 
-    dice = Math.random()*1000;
-    dice = dice +(power * 5);
-
+    dice = Math.random()*10000;
+    console.log(dice);
+    dice = dice +(power * 100);
     console.log(dice);
 
     return dice;
@@ -569,5 +571,14 @@ export class HomeComponent implements OnInit {
       (err: any) => {
       }
     );
+  }
+
+  showChampionships(): void {
+    if(this.hideChampionships === false){
+      this.hideChampionships = true;
+
+    } else{
+      this.hideChampionships = false;
+    }
   }
 }

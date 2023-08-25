@@ -9,12 +9,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { LoginComponent } from './login/login.component';
+import { SelectTeamComponent } from './select-team/select-team.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
+    SelectTeamComponent,
   ],
   imports: [
     BrowserModule,

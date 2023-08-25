@@ -10,7 +10,15 @@ export class ChampionshipService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): any {
-    return this.http.get(`${this.BASE_URI}`);
+  getAll(id: any): any {
+    return this.http.get(`${this.BASE_URI}/${id}`);
+  }
+
+  getByUserId(id: any): any {
+    return this.http.get(`${this.BASE_URI}/${id}`);
+  }
+
+  saveOrUpdate(dto: any): any {
+      return this.http.post(`${this.BASE_URI}`, dto);
   }
 }

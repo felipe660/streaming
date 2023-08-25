@@ -1,0 +1,20 @@
+{
+  "teams": [
+    {
+      "id": 1,
+      "name": "Loud"
+    },
+    {
+      "id": 2,
+      "name": "Pain Gaming"
+    },
+    {
+      "id": 3,
+      "name": "INTZ"
+    },
+    {
+      "id": 4,
+      "name": "Red Canids"
+    }
+  ]
+}

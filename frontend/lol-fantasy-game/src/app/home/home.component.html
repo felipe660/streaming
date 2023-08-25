@@ -1,36 +1,46 @@
 <div class="container-fluid">
-    <div class="row mt-4" *ngFor="let championship of championships">
-        <div class="row">
-            <div class="col-12 d-flex justify-content-center">
-                <h2>{{championship.name}} - {{championship.year}}</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 d-flex justify-content-center">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="col-12 d-flex justify-content-center">
-                            <h3>Matches</h3>
-                        </div>
-                        <div class="mt-1 row" *ngFor="let match of matches; let i=index">
-                            <div *ngIf="match.id_championship === championship.id" class="col-12 d-flex justify-content-center align-items-center">
-                                {{this.teamsEnum[match.id_red_team].name}} X {{this.teamsEnum[match.id_blue_team].name}}
-                                <button *ngIf="(this.campaign.id_team === match.id_red_team || this.campaign.id_team === match.id_blue_team) && i === 0" class="btn btn-success ms-3" (click)="play(match, championship, draft)">Jogar</button>
-                                <button *ngIf="this.campaign.id_team !== match.id_red_team && this.campaign.id_team !== match.id_blue_team && i === 0" class="btn btn-danger ms-3" (click)="play(match, championship, simulate)">Simular</button>
-                            </div>
+    <div class="row mt-4" *ngFor="let championship of championships; let i=index">
+        <div *ngIf="i === 0">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <h2>{{championship.name}} - {{championship.year}}</h2>
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-success" (click)="this.showChampionships()">Campeonatos</button>
+                    <div *ngFor="let allChampionship of championships">
+                        <div *ngIf="!this.hideChampionships">
+                            {{allChampionship.name}} - {{allChampionship.year}}
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="col-12 d-flex justify-content-center">
-                            <h3>Tabela</h3>
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="col-12 d-flex justify-content-center">
+                                <h3>Matches</h3>
+                            </div>
+                            <div class="mt-1 row" *ngFor="let match of matches; let i=index">
+                                <div *ngIf="match.id_championship === championship.id" class="col-12 d-flex justify-content-center align-items-center">
+                                    {{this.teamsEnum[match.id_red_team].name}} X {{this.teamsEnum[match.id_blue_team].name}}
+                                    <button *ngIf="(this.campaign.id_team === match.id_red_team || this.campaign.id_team === match.id_blue_team) && i === 0" class="btn btn-success ms-3" (click)="play(match, championship, draft)">Jogar</button>
+                                    <button *ngIf="this.campaign.id_team !== match.id_red_team && this.campaign.id_team !== match.id_blue_team && i === 0" class="btn btn-danger ms-3" (click)="play(match, championship, simulate)">Simular</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mt-1 row" *ngFor="let team of table">
-                            <div *ngIf="this.team.id_championship === championship.id" class="col-12 d-flex justify-content-center align-items-center">
-                                {{this.teamsEnum[team.id_team].name}} - Wins: {{team.wins}} / Loses: {{team.loses}}
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="col-12 d-flex justify-content-center">
+                                <h3>Tabela</h3>
+                            </div>
+                            <div class="mt-1 row" *ngFor="let team of table">
+                                <div *ngIf="this.team.id_championship === championship.id" class="col-12 d-flex justify-content-center align-items-center">
+                                    {{this.teamsEnum[team.id_team].name}} - Wins: {{team.wins}} / Loses: {{team.loses}}
+                                </div>
                             </div>
                         </div>
                     </div>

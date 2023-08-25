@@ -10,20 +10,24 @@ export class MatchesService {
 
   constructor(private http: HttpClient) { }
 
-  // saveOrUpdate(dto: any): any {
-  //   if (dto.id) {
-  //       return this.http.put(`${this.BASE_URI}/${dto.id}`, dto);
-  //   } else {
-  //       return this.http.post(`${this.BASE_URI}`, dto);
-  //   }
-  // }
+  saveOrUpdate(dto: any): any {
+    if (dto.id) {
+        // return this.http.put(`${this.BASE_URI}/${dto.id}`, dto);
+    } else {
+        return this.http.post(`${this.BASE_URI}`, dto);
+    }
+  }
 
-  getAll(): any {
-    return this.http.get(`${this.BASE_URI}`);
+  getAll(id:any): any {
+    return this.http.get(`${this.BASE_URI}/${id}`);
   }
 
   getTournamentInfos(id: number): any {
     return this.http.get(`${this.BASE_URI}/${id}`);
+  }
+
+  championshipHasMatches(match: any): any {
+    return this.http.post(`${this.BASE_URI}/championshihasmatches`, match);
   }
 
   finishMatch(dto: any): any{

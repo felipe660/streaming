@@ -1,0 +1,20 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-4 offset-4">
+            <label>Selecione o seu time</label>
+            <ng-select [items]="this.teams" bindLabel="name" bindValue="name" [(ngModel)]="your_team.name"></ng-select>
+            <button class="btn btn-success m-5" (click)="this.create();">
+                Selecionar time
+            </button>
+            <button class="btn btn-success m-5" (click)="this.getTeamInfo();">
+                Criar Campeonatos
+            </button>
+            <button class="btn btn-success m-5" (click)="this.createMatch();">
+                Criar Partidas
+            </button>
+            <button class="btn btn-success m-5" (click)="this.getAllMatches();">
+                Criar Partidas
+            </button>
+        </div>
+    </div>
+</div>

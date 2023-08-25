@@ -10,13 +10,13 @@ export class TeamService {
 
   constructor(private http: HttpClient) { }
 
-  // saveOrUpdate(dto: any): any {
-  //   if (dto.id) {
-  //       return this.http.put(`${this.BASE_URI}/${dto.id}`, dto);
-  //   } else {
-  //       return this.http.post(`${this.BASE_URI}`, dto);
-  //   }
-  // }
+  saveOrUpdate(dto: any): any {
+    if (dto.id) {
+        return this.http.put(`${this.BASE_URI}/${dto.id}`, dto);
+    } else {
+        return this.http.post(`${this.BASE_URI}`, dto);
+    }
+  }
 
   getAll(): any {
     return this.http.get(`${this.BASE_URI}`);
@@ -24,5 +24,8 @@ export class TeamService {
 
   getById(id: any): any {
     return this.http.get(`${this.BASE_URI}/${id}`);
+  }
+  getByUserId(id: any): any {
+    return this.http.get(`${this.BASE_URI}/user/${id}`);
   }
 }
